@@ -14,6 +14,9 @@ class DatabaseSeeder extends Seeder
     {
         Model::unguard();
 
+        \App\Client::truncate(); //To delete the table data before creating new ones
+        factory(\App\Client::class, 10)->create();
+
         // $this->call(UserTableSeeder::class);
 
         Model::reguard();
