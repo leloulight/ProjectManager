@@ -84,6 +84,10 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (Client::findOrNew($id)->delete()) {
+            return ["success" => true];
+        }
+
+        return ["success" => false ];
     }
 }
