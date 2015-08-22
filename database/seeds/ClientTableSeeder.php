@@ -12,6 +12,6 @@ class ClientTableSeeder extends Seeder
     public function run()
     {
         \App\Client::truncate(); //To delete the table data before creating new ones
-        factory(\App\Client::class, 10)->create();
+        factory(\App\Entities\Client::class, 10)->create();
     }
 }
