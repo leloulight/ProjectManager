@@ -10,8 +10,11 @@ use Illuminate\Http\Request;
 class ClientController extends Controller
 {
 
-
+    /**
+     * @var ClientRepository
+     */
     private $repository;
+
     /**
      * @var ClientService
      */

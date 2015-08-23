@@ -43,9 +43,6 @@ class ClientService
                 "message" => $e->getMessageBag()
             ];
         }
-
-
-        return $this->repository->create($data);
     }
 
     public function update (array $data, $id) {
