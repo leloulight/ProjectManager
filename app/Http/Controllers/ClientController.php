@@ -2,24 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\ClientRepository;
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-use App\Repositories\ClientRepositoryEloquent;
-use App\Entities\Client;
 
 
 class ClientController extends Controller
 {
+
+
+    private $repository;
+
+    public function __construct(ClientRepository $repository) {
+        $this->repository = $repository;
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return Response
      */
-    public function index(ClientRepositoryEloquent $repository)
+    public function index()
     {
-        return $repository->all();
+        return $this->repository->all();
     }
 
     /**
@@ -40,7 +44,7 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        return Client::create($request->all());
+        return $this->repository->create($request->all());
     }
 
     /**
@@ -51,7 +55,7 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        return Client::findOrNew($id);
+        return $this->repository->find($id);
     }
 
     /**
@@ -85,7 +89,7 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        if (Client::findOrNew($id)->delete()) {
+        if ($this->repository->find($id)->delete()) {
             return ["success" => true];
         }
 
