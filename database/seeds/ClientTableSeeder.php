@@ -19,9 +19,15 @@ class ClientTableSeeder extends Seeder
         \App\Entities\Project::truncate();
         \App\Entities\Client::truncate();
         \App\Entities\User::truncate();
-        \App\Entities\User::truncate();
 
         factory(\App\Entities\User::class, 10)->create();
+        factory(\App\Entities\User::class)->create([
+            'name' => 'Eduardo Junior',
+            'email' => 'edujr.silva@gmail.com',
+            'password' => bcrypt('test'),
+            'remember_token' => str_random(10)
+        ]);
+
         factory(\App\Entities\Client::class, 10)->create();
         factory(\App\Entities\Project::class, 10)->create();
         factory(\App\Entities\ProjectNote::class, 50)->create();
