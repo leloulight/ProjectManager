@@ -16,7 +16,7 @@ $factory->define(App\Entities\User::class, function (Faker\Generator $faker) {
         'name' => $faker->name,
         'email' => $faker->email,
         'password' => bcrypt(str_random(10)),
-        'remember_token' => str_random(10),
+        'remember_token' => str_random(10)
     ];
 });
 
@@ -27,7 +27,7 @@ $factory->define(App\Entities\Client::class, function (Faker\Generator $faker) {
         'email' => $faker->email,
         'phone' => $faker->phoneNumber,
         'address' => $faker->address,
-        'obs' => $faker->sentence,
+        'obs' => $faker->sentence
     ];
 });
 
@@ -40,5 +40,13 @@ $factory->define(App\Entities\Project::class, function (Faker\Generator $faker) 
         'progress' => rand(1,100),
         'status' => rand(1,3),
         'due_date' => $faker->dateTime('now')
+    ];
+});
+
+$factory->define(App\Entities\ProjectNote::class, function (Faker\Generator $faker) {
+    return [
+        'project_id' => rand(1,10),
+        'title' => $faker->word,
+        'note' => $faker->paragraph
     ];
 });
