@@ -39,6 +39,12 @@ gulp.task('copy-styles', function(){
         .pipe(gulp.dest(config.build_path_css))
         .pipe(liveReload());
 
+    gulp.src([
+        config.vendor_path_css
+    ])
+        .pipe(gulp.dest(config.build_vendor_path_css))
+        .pipe(liveReload());
+
 });
 
 gulp.task('copy-scripts', function(){
@@ -47,6 +53,12 @@ gulp.task('copy-scripts', function(){
         config.assets_path + 'js/**/*.js'
     ])
         .pipe(gulp.dest(config.build_path_js))
+        .pipe(liveReload());
+
+    gulp.src([
+        config.vendor_path_js
+    ])
+        .pipe(gulp.dest(config.build_vendor_path_js))
         .pipe(liveReload());
 
 });
