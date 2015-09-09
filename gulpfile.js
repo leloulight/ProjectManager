@@ -1,4 +1,7 @@
-var elixir = require('laravel-elixir');
+var elixir = require('laravel-elixir'),
+    liveReload = require('gulp-livereload'),
+    clean = require('gulp-clear'),
+    gulp = require('gulp');
 
 /*
  |--------------------------------------------------------------------------
