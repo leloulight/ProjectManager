@@ -37,11 +37,17 @@ gulp.task('copy-styles', function(){
         config.assets_path + 'css/**/*.css'
     ])
         .pipe(gulp.dest(config.build_path_css))
-        .pipe(liveReload())
+        .pipe(liveReload());
 
 });
 
 gulp.task('copy-scripts', function(){
+
+    gulp.src([
+        config.assets_path + 'js/**/*.js'
+    ])
+        .pipe(gulp.dest(config.build_path_js))
+        .pipe(liveReload());
 
 });
 
