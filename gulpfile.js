@@ -31,6 +31,21 @@ config.vendor_path_css = [
     config.bower_path + '/bootstrap/dist/css/bootstrap.theme.min.css'
 ];
 
+gulp.task('copy-styles', function(){
+
+    gulp.src([
+        config.assets_path + 'css/**/*.css'
+    ])
+        .pipe(gulp.dest(config.build_path_css))
+        .pipe(liveReload())
+
+});
+
+gulp.task('copy-scripts', function(){
+
+});
+
+
 /*
  |--------------------------------------------------------------------------
  | Elixir Asset Management
