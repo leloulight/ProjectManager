@@ -21,7 +21,7 @@ config.vendor_path_js = [
     config.bower_path + '/angular-animate/angular-animate.min.js',
     config.bower_path + '/angular-messages/angular-messages.min.js',
     config.bower_path + '/angular-bootstrap/ui.bootstrap.min.js',
-    config.bower_path + '/angular-strap/modules/navbar.min.js',
+    config.bower_path + '/angular-strap/dist/modules/navbar.min.js',
 ];
 
 config.build_path_css        = config.build_path + '/css';
@@ -31,7 +31,7 @@ config.vendor_path_css = [
     config.bower_path + '/bootstrap/dist/css/bootstrap.theme.min.css'
 ];
 
-gulp.task('clear-build-folder', function() {
+gulp.task('clean-build-folder', function() {
     clean.sync(config.build_path);
 });
 
@@ -63,25 +63,22 @@ gulp.task('copy-scripts', function(){
 
 });
 
-gulp.task('watch-dev', function(){
-    liveReload.listen();
-    gulp.start('copy-styles','copy-scripts', 'clear-build-folder');
-    gulp.watch(config.assets_path + '/**' , ['copy-styles', 'copy-scripts', 'clear-build-folder']);
+gulp.task('default',['clean-build-folder'], function(){
+    elixir(function(mix){
+        mix.styles(config.vendor_path_css.concat([config.assets_path + '/css/**/*.css']),
+        'public/css/all.css', config.assets_path);
 
+        mix.scripts(config.vendor_path_js.concat([config.assets_path + '/js/**/*.js']),
+            'public/js/all.js', config.assets_path);
+
+        mix.version(['js/all.js','css/all.css']);
+
+    });
 });
 
+gulp.task('watch-dev', function(){
+    liveReload.listen();
+    gulp.start('copy-styles','copy-scripts', 'clean-build-folder');
+    gulp.watch(config.assets_path + '/**' , ['copy-styles', 'copy-scripts', 'clean-build-folder']);
 
-/*
- |--------------------------------------------------------------------------
- | Elixir Asset Management
- |--------------------------------------------------------------------------
- |
- | Elixir provides a clean, fluent API for defining some basic Gulp tasks
- | for your Laravel application. By default, we are compiling the Sass
- | file for our application, as well as publishing vendor resources.
- |
- */
-
-elixir(function(mix) {
-    mix.sass('app.scss');
 });
