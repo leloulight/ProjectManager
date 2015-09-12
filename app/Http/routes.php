@@ -24,6 +24,7 @@ Route::group(['middleware' => 'oauth'], function() {
 
     Route::get('client', ['middleware' => 'oauth', 'uses' => 'ClientController@index']);
     Route::get('client/{id}', 'ClientController@show');
+    Route::put('client/{id}', 'ClientController@update');
     Route::delete('client/{id}', 'ClientController@destroy');
     Route::post('client', 'ClientController@store');
 
