@@ -15,8 +15,10 @@ angular.module('app.controllers')
         $scope.save = function () {
 
             if ($scope.form.$valid) {
-                $scope.client.$save().then(function() {
+                $scope.client.$save().then(function () {
                     $location.path('/clients');
+                }, function (response) {
+                    console.log("Error...");
                 })
             }
         }
@@ -27,6 +29,15 @@ angular.module('app.controllers')
                 Client.update({id: $scope.client.id}, $scope.client, function() {
                     $location.path('/clients');
                 });
+            }
+        }
+
+        $scope.delete = function (client) {
+            $scope.client = client;
+            if (confirm("Do you want to delete?")) {
+                $scope.client.$delete().then(function() {
+                    $location.path('/clients');
+                })
             }
         }
 
