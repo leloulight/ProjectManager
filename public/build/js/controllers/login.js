@@ -1,15 +1,19 @@
 angular.module('app.controllers')
-    .controller('LoginController', ['$scope', function($scope){
+    .controller('LoginController', ['$scope', '$location', 'OAuth', function($scope, $location, OAuth){
 
         $scope.user = {
 
-            username: '',
-            password: ''
+            username: 'edujr.silva@gmail.com',
+            password: 'test'
 
         }
 
         $scope.login = function() {
-
+            OAuth.getAccessToken($scope.user).then(function(){
+                $location.path('home');
+            }, function() {
+                alert('Invalid logo data');
+            });
         }
 
     }]);
