@@ -1,6 +1,8 @@
-var app =  angular.module('app',['ngRoute', 'angular-oauth2', 'app.controllers']);
+var app =  angular.module('app',['ngRoute', 'angular-oauth2', 'app.controllers', 'app.services']);
 
 angular.module('app.controllers',['ngMessages', 'angular-oauth2']);
+
+angular.module('app.services',['ngResource']);
 
 app.provider('appConfig', function(){
     var config = {
@@ -15,7 +17,8 @@ app.provider('appConfig', function(){
     }
 });
 
-app.config(['$routeProvider', 'OAuthProvider', 'appConfigProvider', function($routeProvider, OAuthProvider, appConfigProvider){
+app.config(['$routeProvider', 'OAuthProvider', 'OAuthTokenProvider', 'appConfigProvider',
+    function($routeProvider, OAuthProvider, OAuthTokenProvider, appConfigProvider){
 
     $routeProvider
         .when('/login', {
@@ -25,7 +28,12 @@ app.config(['$routeProvider', 'OAuthProvider', 'appConfigProvider', function($ro
         .when('/home', {
             templateUrl: 'build/views/home.html',
             controller: 'HomeController'
+        })
+        .when('/clients', {
+            templateUrl: 'build/views/client/list.html',
+            controller: 'ClientListController'
         });
+
 
     OAuthProvider.configure({
         baseUrl: appConfigProvider.config.baseUrl,
@@ -33,6 +41,13 @@ app.config(['$routeProvider', 'OAuthProvider', 'appConfigProvider', function($ro
         clientSecret: 'secretkey',
         grantPath: 'oauth/access_token'
     });
+
+    OAuthTokenProvider.configure({
+        name: 'token',
+        options: {
+            secure: false
+        }
+    })
 
 }]);
 
