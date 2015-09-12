@@ -8,12 +8,19 @@ angular.module('app.controllers')
 
         }
 
+        $scope.error = {
+            message: '',
+            error: false
+        }
+
         $scope.login = function() {
             if ($scope.form.$valid) {
                 OAuth.getAccessToken($scope.user).then(function () {
                     $location.path('home');
-                }, function () {
-                    alert('Invalid logo data');
+                }, function (response) {
+                    console.log(response);
+                    $scope.error.error = true;
+                    $scope.error.message = response.data.error_description;
                 });
             }
         }
