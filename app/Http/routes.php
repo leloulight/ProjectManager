@@ -23,6 +23,7 @@ Route::post('oauth/access_token', function() {
 Route::group(['middleware' => 'oauth'], function() {
 
     Route::get('client', ['middleware' => 'oauth', 'uses' => 'ClientController@index']);
+    Route::get('user/authenticated', 'UserController@authenticated');
     Route::get('client/{id}', 'ClientController@show');
     Route::put('client/{id}', 'ClientController@update');
     Route::delete('client/{id}', 'ClientController@destroy');

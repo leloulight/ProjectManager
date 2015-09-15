@@ -20,7 +20,7 @@ app.provider('appConfig', function(){
 app.config(['$routeProvider', '$httpProvider', 'OAuthProvider', 'OAuthTokenProvider', 'appConfigProvider',
     function($routeProvider, $httpProvider, OAuthProvider, OAuthTokenProvider, appConfigProvider){
 
-        
+
         $httpProvider.defaults.transformResponse = function(data, headers) {
             var headersGetter = headers();
 
