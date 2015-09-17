@@ -4,10 +4,36 @@ angular.module('app.controllers',['ngMessages', 'angular-oauth2']);
 
 angular.module('app.services',['ngResource']);
 
-app.provider('appConfig', function(){
+app.provider('appConfig', ['$httpParamSerializerProvider', function($httpParamSerializerProvider) {
     var config = {
-        baseUrl: 'http://localhost:8000'
-    }
+        baseUrl: 'http://localhost:8000',
+
+        utils: {
+            transformRequest: function(data) {
+
+                if (angular.isObject(data)) {
+                    return $httpParamSerializerProvider.$get()(data);
+                }
+                return data;
+            },
+
+            transformResponse: function(data, headers) {
+
+                var headersGetter = headers();
+
+                if (headersGetter['content-type'] == 'application/json' || headersGetter['content-type'] == 'text/json' ) {
+                    var dataJson = JSON.parse(data);
+                    if (dataJson.hasOwnProperty('data')) {
+                        dataJson = dataJson.data;
+                    }
+
+                    return dataJson;
+                }
+
+                return data;
+            }
+        }
+    };
 
     return {
         config: config,
@@ -15,26 +41,16 @@ app.provider('appConfig', function(){
             return config;
         }
     }
-});
+}]);
 
-app.config(['$routeProvider', '$httpProvider', 'OAuthProvider', 'OAuthTokenProvider', 'appConfigProvider',
-    function($routeProvider, $httpProvider, OAuthProvider, OAuthTokenProvider, appConfigProvider){
+app.config(['$routeProvider', '$httpProvider', '$httpParamSerializerProvider', 'OAuthProvider', 'OAuthTokenProvider', 'appConfigProvider',
+    function($routeProvider, $httpProvider, $httpParamSerializerProvider, OAuthProvider, OAuthTokenProvider, appConfigProvider){
 
+        $httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
+        $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
 
-        $httpProvider.defaults.transformResponse = function(data, headers) {
-            var headersGetter = headers();
-
-            if (headersGetter['content-type'] == 'application/json' || headersGetter['content-type'] == 'text/json' ) {
-                var dataJson = JSON.parse(data);
-                if (dataJson.hasOwnProperty('data')) {
-                    dataJson = dataJson.data;
-                }
-
-                return dataJson;
-            }
-
-            return data;
-        };
+        $httpProvider.defaults.transformRequest = appConfigProvider.config.utils.transformRequest;
+        $httpProvider.defaults.transformResponse = appConfigProvider.config.utils.transformResponse;
 
 
     $routeProvider
